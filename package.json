@@ -1,0 +1,27 @@
+{
+    "name": "redpipe",
+    "version": "1.0.0",
+    "description": "Javascript - Simple PIPE",
+    "author": "Yarflam",
+    "main": "index.js",
+    "license": "CC0-1.0",
+    "scripts": {
+        "start": "node test.cjs",
+        "test": "node test.cjs"
+    },
+    "keywords": [
+        "Pipe",
+        "Queue",
+        "NodeRED",
+        "Gulp",
+        "Javascript"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Yarflam/redpipe.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Yarflam/redpipe/issues"
+    },
+    "homepage": "https://github.com/Yarflam/redpipe#readme"
+}
