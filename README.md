@@ -4,6 +4,14 @@
 
 ## Install
 
+### NPM
+
+```bash
+npm i redpipe
+```
+
+### Github Project
+
 ```bash
 git clone https://github.com/Yarflam/redpipe.git
 ```
@@ -13,6 +21,42 @@ Run `test.cjs`:
 ```bash
 npm test
 ```
+
+You should have something like that:
+
+```text
+[OUT] 11
+[ERR] Error: 10 items or greater are not supported
+    at Array.<anonymous> (test.cjs:29:19)
+    at RedPipe.run (RedPipe.cjs:48:55)
+    at Timeout._onTimeout (RedPipe.cjs:66:31)
+    at listOnTimeout (node:internal/timers:573:17)
+    at process.processTimers (node:internal/timers:514:7)
+[OUT] 5
+[OUT] 9
+topic: Awesome
+payload: 1
+[OUT] 1
+[ERR] Error: 10 items or greater are not supported
+    at Array.<anonymous> (test.cjs:29:19)
+    at RedPipe.run (RedPipe.cjs:48:55)
+    at Timeout._onTimeout (RedPipe.cjs:66:31)
+    at listOnTimeout (node:internal/timers:573:17)
+    at process.processTimers (node:internal/timers:514:7)
+topic: Awesome
+payload: 7
+[OUT] 7
+topic: Awesome
+payload: 13
+[OUT] 13
+topic: Awesome
+payload: 3
+[OUT] 3
+FINISHED: IN 1 -> OUT 7
+  /!\ 2 error(s) /!\
+```
+
+The errors are trigger by the JS script.
 
 ## Usages
 
@@ -59,11 +103,32 @@ Add an async pipe:
 
 ```javascript
 flow.pipe((msg, node) => {
-    node.async(); // Lock
+    node.async(); // lock
     setTimeout(() => {
+        node.async(true); // unlock
         node.send(msg);
-        node.async(true); // Unlock
     }, 42);
+});
+```
+
+Retry (use it with a `Promise`):
+
+```javascript
+flow.pipe((msg, node) => {
+    node.async();
+    new Promise((resolve, reject) => {
+        if(!msg.noRetry) {
+            msg.noRetry = true;
+            return reject(); // First call
+        }
+        resolve(); // Second call
+    }).then(() => {
+        node.async(true);
+        node.send(msg); // next pipe
+    }).catch(() => {
+        node.async(true);
+        node.retry(); // retrying
+    })
 });
 ```
 

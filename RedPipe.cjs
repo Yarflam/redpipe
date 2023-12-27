@@ -74,7 +74,7 @@ class RedPipe {
         return this;
     }
 
-    send({ topic, payload, ...options }) {
+    send({ topic, payload, ...options }={}) {
         if(!this._nbJobs) return this;
         this._data[0].push({
             ...options,
