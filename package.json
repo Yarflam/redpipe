@@ -1,9 +1,9 @@
 {
     "name": "redpipe",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Javascript - Simple PIPE",
     "author": "Yarflam",
-    "main": "index.js",
+    "main": "index.cjs",
     "license": "CC0-1.0",
     "scripts": {
         "start": "node test.cjs",
