@@ -40,9 +40,11 @@ class RedPipe {
             if(!this._nbAsync) return this.__finished();
             return this;
         }
+        let hasMsg = false;
         while(this._reader < this._nbJobs) {
             const msg = this._data[this._reader].shift();
             if(msg) {
+                hasMsg = true;
                 const node = this.getNode(msg);
                 try {
                     node.send(this._jobs[this._reader](msg, node));
@@ -62,8 +64,9 @@ class RedPipe {
             }
             this._reader++;
         }
+        if(!hasMsg) this._start = 0;
         this._reader = Math.max(this._start, this._reader % this._nbJobs);
-        setTimeout(() => this.run(), 0);
+        setTimeout(() => this.run(), !hasMsg ? 200 : 0);
         return this;
     }
 

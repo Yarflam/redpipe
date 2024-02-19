@@ -1,6 +1,6 @@
 {
     "name": "redpipe",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Javascript - Simple PIPE",
     "author": "Yarflam",
     "main": "index.cjs",
